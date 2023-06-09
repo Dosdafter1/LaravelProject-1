@@ -46,13 +46,15 @@ use App\Models\Product;
                         <th>Date</th>
                     </thead>
                     <tbody>
-                    @foreach($product->payments()->get() as $payment )
+                    @foreach($product->prod_payments()->get() as $payment )
+                    @if($payment->payment()->status==='success')
                           <tr>
                               <td>{{$payment->payment()->id}}</td>
                               <td>{{$payment->payment()->amount}}</td>
                               <td>{{$payment->quantity}}</td>
                               <td>{{$payment->payment()->created_at}}</td>
                           </tr>
+                    @endif
                     @endforeach
                     </tbody>
                 </table>

@@ -40,9 +40,11 @@
                     <x-nav-link :href="route('donate')" :active="request()->routeIs('donate')">
                         {{ __('Donate') }}
                     </x-nav-link>
+                    @if(Auth::check())
                     <x-nav-link :href="route('admin.map.index')" :active="request()->routeIs('admin.map.index')">
                         {{ __('Markers') }}
                     </x-nav-link>
+                    @endif
                     <x-nav-link :href="route('map.index')" :active="request()->routeIs('map.index')">
                         {{ __('Map') }}
                     </x-nav-link>

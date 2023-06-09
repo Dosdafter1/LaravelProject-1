@@ -32,14 +32,14 @@ class Product extends Model
         'category_id'
       ];
     protected $table = 'products';
-    public function payments(): HasMany
+    public function prod_payments(): HasMany
     {
         return $this->hasMany(ProductPayment::class);
     }
     protected static function booted()
     {
         static::deleting(function(Product $product){
-            foreach($product->payments()->get() as $pay)
+            foreach($product->prod_payments()->get() as $pay)
             {
                 $pay->delete();
             }
