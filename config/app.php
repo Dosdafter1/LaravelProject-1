@@ -157,18 +157,19 @@ return [
 
     'providers' => ServiceProvider::defaultProviders()->merge([
         /*
-         * Package Service Providers...
-         */
-
+        * Package Service Providers...
+        */
+        
         /*
-         * Application Service Providers...
-         */
+        * Application Service Providers...
+        */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-    ])->toArray(),
+        \Nwidart\Modules\LaravelModulesServiceProvider::class
+        ])->toArray(),
 
     /*
     |--------------------------------------------------------------------------
@@ -183,6 +184,12 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'Module' => \Nwidart\Modules\Facades\Module::class
     ])->toArray(),
-
+    
+    'map_defult_center_lat'=>env('MAP_CENTER_LAT'),
+    'map_defult_center_long'=>env('MAP_CENTER_LONG'),
+    'map_defult_zoom'=>env('MAP_ZOOM'),
+    'liqpay_public_key'=>env('LIQPAY_PUBLIC_KEY'),
+    'liqpay_private_key'=>env('LIQPAY_PRIVATE_KEY'),
 ];

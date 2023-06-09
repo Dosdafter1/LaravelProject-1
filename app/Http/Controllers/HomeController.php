@@ -17,5 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
         {
             return view('pages.products');
         }
+        public function map()
+        {
+            return view('pages.map');
+        }
     }
  ?>

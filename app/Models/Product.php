@@ -1,33 +1,58 @@
 <?php
-    namespace App\Models;
-    class Product {
-        public string $name;
-        public float $price;
-        public static function SaveProductToFile($products){
-            $json = json_encode($products, JSON_PRETTY_PRINT);
-            file_put_contents(__DIR__.'\products.json', $json);
-        }
-        public static function GetAllProductsFromFiles(){
-            $json = file_get_contents(__DIR__.'\products.json');
-            $data = json_decode($json, true); 
-            return $data;
-        }
-        public static function GetProductsFromFilesByName($s){
-            $data = Product::GetAllProductsFromFiles();
-            if($data!=null)
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Storage;
+
+/**
+ * @property int         $id
+ * @property string      $title
+ * @property float       $price
+ * @property integer     $quantity
+ * @property int         $category_id
+ * @property string|null $image
+ * @property Category    $Category
+ */
+class Product extends Model
+{
+    use HasFactory;
+    /**
+     * Table in database.
+     *
+     * @var string
+     */
+    protected $fillable = [
+        'title',
+        'price',
+        'quantity',
+        'category_id'
+      ];
+    protected $table = 'products';
+    public function payments(): HasMany
+    {
+        return $this->hasMany(ProductPayment::class);
+    }
+    protected static function booted()
+    {
+        static::deleting(function(Product $product){
+            foreach($product->payments()->get() as $pay)
             {
-            $filteredProducts = array_filter($data,
-                        function($prod) use($s){
-                            return str_contains(strtolower($prod['name']),strtolower($s));
-            });
-            $res =[];
-            foreach($filteredProducts as $c)
-            {
-                $res[]=$c;
+                $pay->delete();
             }
-            return $res;
-            }
+        });
+    }
+    
+    public function getCategory(): HasOne {
+        return $this->hasOne(Category::class);
+    }
+    public function getImageUrl(): ?string {
+        if(empty($this->image)){
             return null;
         }
+        return Storage::url('\products\\'.$this->image);
     }
- ?>
+}
