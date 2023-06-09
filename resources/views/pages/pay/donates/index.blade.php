@@ -30,7 +30,7 @@
                             <td>{{$donate->descriptions}}</td>
                             <td>
                                 <div class="progress">
-                                    <div class="progress-bar" role="progressbar" 
+                                    <div class="progress-bar bg-success" role="progressbar" 
                                     style="width: {{$donate->donePercent()}}%;" aria-valuenow="{{$donate->donePercent()}}" 
                                         aria-valuemin="0" aria-valuemax="100">{{$donate->donePercent()}}%</div>
                                 </div>

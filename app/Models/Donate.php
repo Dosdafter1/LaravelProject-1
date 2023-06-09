@@ -51,7 +51,7 @@ class Donate extends Model
     public function donePercent(): float {
         if($this->amount>0){
             $res = ($this->amount/$this->required_amount)*100;
-            return $res;
+            return round($res,2);
         }
         else
             return 0;
